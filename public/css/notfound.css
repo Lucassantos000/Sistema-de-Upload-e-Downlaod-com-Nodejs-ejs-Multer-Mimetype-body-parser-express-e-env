@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
+
+body{
+background-color: rgba(0,151,164,1);
+display:flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+width: 100vw;
+height: 100vh;
+}
+
+.imgnotfound{
+    width: 650px;
+    margin: auto;
+}
+
+.divBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.btnMain{
+width: 90px;
+height: 40px;
+border-radius: 5px;
+border: none;
+outline: none;
+color: white;
+/* position: relative; */
+/* top:-120px; */
+background-color: rgba(0,0,0,0.8);
+font-weight: bolder;
+box-shadow: 0px 0px 5px 1px black;
+cursor: pointer;
+}
+
+.btnMain:hover{
+    background-color: rgb(237, 81, 141);
+    color: white;
+    box-shadow: 0px 0px 5px 1px whitesmoke;
+    transition: all 0.4;
+    font-weight: 900;
+    animation: float 1s infinite ease-in-out alternate;
+}
+
+
+/* ANIMAÇÕES */
+@keyframes float {
+    100% {
+    transform: translateY(10px);
+  }
+}
+
+
+@media (max-width: 720px)
+{
+  .imgnotfound
+   {
+    width: 85%;
+   }
+
+}

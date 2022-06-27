@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <title>Home</title>
+</head>
+
+<body>
+    <div class="aniamtionLoading">
+        <img width="100px;" src="./img/loading.gif" alt="loading...">
+    </div>
+
+    <header style="text-align:center;" >
+        PÁGINA PRINCIPAL
+    </header>
+    
+    <div>
+        <form action="files" method="post" enctype="multipart/form-data" >
+            <input id="file" type="file" name="files" multiple required>
+            <button id="tbnSubmit" type="button">Enviar</button>
+            <button id="clearFiles" type="button">Limpar</button>
+        </form>
+    </div>
+
+    <div id="bg-modal">
+        <div id="modal">
+        
+            <div style="display:inline-flex; align-items:center; justify-content:flex-end; margin-right: 5px; margin-top: 5px;">
+                <!-- <p style="top:0; left:95%; position:relative;">X</p> -->
+                <img id="iconCloseModal" style="margin:0; padding:0; width: 20px; cursor:pointer;" src="./img/fechar.png" alt="cloneModal">
+            </div>
+            
+            <div style="text-align: center; margin-top: 5px; margin-bottom:10px;">
+            <h2 id="tituloModal" style="font-size:13px;"></h2>
+            </div>
+
+            <div style="max-height:350px; overflow-y:scroll;">
+            <table class="table">
+                <thead class="thead-dark" style="position:sticky; top:0">
+                    <tr >
+                        <th>NOME</th>
+                        <th>EXTENÇÃO</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabela">
+
+                </tbody>
+            </table>
+        </div>
+        <!-- FIM DA TABELA -->
+
+            <div style="margin-top:15px; display: flex; align-items: center; justify-content: center;" id="divBotao"></div>
+            
+        </div>
+    </div>
+    
+
+</body>
+
+<script>
+
+
+
+    //FUNÇÃO É ACIONADA QUANDO O STATUS DE ARQUIVOS DO CAMPO FILE É MUDADO
+    $("#file").change( async function(){
+        // $.post("files", $("file").val)
+        console.log($("#file"));
+        for( let file of $("#file")[0].files){
+            console.log(file.name);
+        }
+
+    })
+
+
+    //FUNÇÃO ABRE A MODAL QUANDO O BOTAO DE ENVIAR É CLICADO
+    $("#tbnSubmit").click(async function(){
+        await $("#bg-modal").css({"display":"flex"});
+        //adcionar o titulo
+        await $("#tituloModal").html(""); 
+        await $("#tituloModal").append("<h2>Arquivos que serão enviados <h2>");
+       
+        $("#corpoTabela").html("");    
+        //adicionar os arquivos
+        for( let file of $("#file")[0].files){
+        // console.log(file.name.split(".",30));
+        let fragment = file.name.split(".",30);
+        let extencao = fragment.pop();
+        let nome = fragment.join("")
+        console.log(`nome: ${nome}`);
+        console.log(`extencao: ${extencao}`);
+
+        await $("#corpoTabela").append(`<tr> <td> ${nome}</td> <td style="text-align:center;" > ${extencao} </td> <tr>`);
+        }
+
+        //adicionar o botao de enviar
+        await $("#divBotao").html(""); 
+        await $("#divBotao").append('<button id="btnModalCancel" onclick="fechamodal()" type="button">Cancelar</button>');
+        await $("#divBotao").append('<button id="btnModalSubmit" onclick="enviarFiles()" type="button">Enviar</button>');
+
+    });
+
+    //FECHAR A MODAL 
+    $("#iconCloseModal").click(()=>{
+         $("#bg-modal").hide();
+    });
+
+    //FECHAR A MODAL
+    async function fechamodal(){
+        await $("#bg-modal").hide();
+        console.log($("#bg-modal").css("display"));
+    };
+
+    //MÉTODO PARA ENVIAR OS ARQUIVOS, É ACIONADO DENTRO DA MODAL
+    async function enviarFiles(){  
+        $("#bg-modal").hide();
+       $(".aniamtionLoading").css({"display":"flex"});
+       await $("form").submit();
+      
+    }
+
+    // APAGAR OS ARQUIVOS INPUT FILES
+    $("#clearFiles").click( function limparArchives(){
+        $("#file").val(null)
+    });
+
+   
+    
+</script>
+
+</html>
